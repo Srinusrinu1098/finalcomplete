@@ -1,1 +1,15 @@
-/* Write your CSS here */
+.similar-img {
+  width: 180px;
+  border-radius: 14px;
+}
+.heading-similar {
+  font-size: 8px;
+}
+.par {
+  font-size: 8px;
+}
+.similar-flex {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}

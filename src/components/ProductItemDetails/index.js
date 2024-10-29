@@ -1,10 +1,13 @@
 import {Component} from 'react'
 import Cookies from 'js-cookie'
+import {BsPlusSquare, BsDashSquare} from 'react-icons/bs'
+
 import Header from '../Header'
+import SimilarProductItem from '../SimilarProductItem'
 import './index.css'
 
 class ProductItemDetails extends Component {
-  state = {items: {}, count: 0}
+  state = {items: {}, count: 0, similarList: []}
 
   componentDidMount = () => {
     this.getTheItems()
@@ -25,7 +28,7 @@ class ProductItemDetails extends Component {
 
     const response = await fetch(url, options)
     const data = await response.json()
-    console.log(data)
+    console.log(data.similar_products)
     const updatedItems = {
       availability: data.availability,
       brand: data.brand,
@@ -36,7 +39,15 @@ class ProductItemDetails extends Component {
       rating: data.rating,
       totalReviews: data.total_reviews,
     }
-    this.setState({items: updatedItems})
+    const updatedList = data.similar_products.map(each => ({
+      name: each.title,
+      price: each.price,
+      rating: each.rating,
+      imgUrl: each.image_url,
+      brand: each.brand,
+      id: each.id,
+    }))
+    this.setState({items: updatedItems, similarList: updatedList})
   }
 
   decrement = () => {
@@ -53,7 +64,7 @@ class ProductItemDetails extends Component {
   }
 
   render() {
-    const {items, count} = this.state
+    const {items, count, similarList} = this.state
     const {
       availability,
       brand,
@@ -92,12 +103,12 @@ class ProductItemDetails extends Component {
             </p>
             <hr />
             <div className="rating-flexing1">
-              <button type="button" onClick={this.decrement}>
-                -
+              <button type="button" className="butt" onClick={this.decrement}>
+                <BsDashSquare />
               </button>
               <p className="count">{count}</p>
-              <button type="button" onClick={this.increment}>
-                +
+              <button type="button" className="butt" onClick={this.increment}>
+                <BsPlusSquare />
               </button>
             </div>
             <button type="button" className="button1">
@@ -105,6 +116,11 @@ class ProductItemDetails extends Component {
             </button>
           </div>
         </div>
+        <ul className="ulll">
+          {similarList.map(eachItem => (
+            <SimilarProductItem key={eachItem.id} values={eachItem} />
+          ))}
+        </ul>
       </div>
     )
   }

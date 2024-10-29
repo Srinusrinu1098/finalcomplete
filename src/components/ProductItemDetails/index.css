@@ -76,3 +76,14 @@
   width: 120px;
   border-radius: 8px;
 }
+.ulll {
+  list-style-type: none;
+  display: flex;
+  justify-content: space-between;
+  width: 90%;
+}
+.butt {
+  border: 0px;
+  background: transparent;
+  height: 90px;
+}
